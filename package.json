@@ -1,0 +1,16 @@
+{
+  "name": "database_move",
+  "version": "1.0.0",
+  "description": "(E)xtract (T)ransform and (L)oad old DB to new DB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "etl": "^0.6.12",
+    "pg": "^8.0.0"
+  }
+}
