@@ -5,18 +5,32 @@ const { connection } = require("./database.js");
 let nameId = 1;
 let passedName = {};
 
-etl
-  .file("./characteristics.csv")
-  .pipe(etl.csv())
-  .pipe(
-    etl.map(function (data) {
-      if (!passedName[data.name]) {
-        passedName[data.name] = nameId;
-        this.push({
-          char_name_id: nameId++,
-          name: data.name,
-        });
-      }
+let characteristicNames = function () {
+  console.log("*** STARTING FUNCTION characteristicNames ***");
+  return etl
+    .file("./characteristics.csv")
+    .pipe(etl.csv())
+    .pipe(
+      etl.map(function (data) {
+        if (!passedName[data.name]) {
+          passedName[data.name] = nameId;
+          this.push({
+            char_name_id: nameId++,
+            name: data.name,
+          });
+        }
+      })
+    )
+    .pipe(etl.postgres.upsert(connection, "public", "characteristic_names"))
+    .promise()
+    .then(() => {
+      console.log(
+        "*** FINISHED CONSOLIDATING CHARACTERISTICS INTO ID:NAME AND WROTE TO DATABASE[CHARACTERISTIC_NAMES TABLE ***"
+      );
     })
-  )
-  .pipe(etl.postgres.upsert(connection, "public", "characteristic_names"));
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+module.exports = characteristicNames;

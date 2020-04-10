@@ -9,8 +9,8 @@ const pool = new Pool({
 
 pool.connect();
 
-// pool.query("SELECT COUNT(*) FROM reviews", (error, result) => {
-//   console.log(error ? error.stack : result.rows[0]);
+// pool.query("SELECT COUNT(*) FROM reviews").then((data) => {
+//   console.log(data.rows[0]);
 //   pool.end();
 // });
 
