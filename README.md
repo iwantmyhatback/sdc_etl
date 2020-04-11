@@ -1,8 +1,12 @@
 # Database ETL for Reviews-Service
 
 ### To migrate all review data
-run:
-`npm install`
-`npm start`
+run:<br>
+`npm install`<br>
+`npm start`<br>
+<br>
+This will migrate all data to the existing `localhost` Postgres Server named `sdc`<br>
+<br>
+![currentERD][ERD]
 
-This will migrate all data to the existing `localhost` Postgres Server named `sdc`
+[ERD]: https://github.com/iwantmyhatback/sdc_etl/master/img/current_erd.png "reviews-erd"
