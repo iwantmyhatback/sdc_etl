@@ -5,6 +5,7 @@ const reviews = require("./reviews.js");
 const reviewPhotos = require("./review_photos.js");
 
 async function iLikeToMoveItMoveIt() {
+  console.log("Starting ETL: ", Date());
   // REVIEWS.JS
   await reviews.products();
   await reviews.productReviews();
@@ -19,6 +20,7 @@ async function iLikeToMoveItMoveIt() {
   await characteristicReviews();
   //REVIEW_PHOTOS.JS
   await reviewPhotos();
+  console.log("Ended ETL: ", Date());
 }
 
 iLikeToMoveItMoveIt();
