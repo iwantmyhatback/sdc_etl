@@ -1,5 +1,4 @@
 const etl = require("etl");
-const fs = require("fs");
 const { connection } = require("./database.js");
 
 let ratings = {};
@@ -9,7 +8,7 @@ let characteristicReviews = function () {
   console.log("*** STARTING FUNCTION characteristicReviews ***");
 
   return etl
-    .file("./characteristic_reviews.csv")
+    .file("./data/characteristic_reviews.csv")
     .pipe(etl.csv())
     .pipe(
       etl.map(function (data) {
@@ -51,7 +50,7 @@ let characteristicReviews = function () {
         })
         .then(() => {
           etl
-            .file("./characteristic_reviews.csv")
+            .file("./data/characteristic_reviews.csv")
             .pipe(etl.csv())
             .pipe(
               etl.map(function (data) {
@@ -68,7 +67,9 @@ let characteristicReviews = function () {
             .pipe(etl.postgres.upsert(connection, "public", "characteristic"))
             .promise()
             .then(() => {
-              console.log("*** FINISHED WRITING FULL DATASET TO DATABASE [CHARACTERISTIC TABLE] ***");
+              console.log(
+                "*** FINISHED WRITING FULL DATASET FROM CHARACTERISTIC_REVIEWS.CSV TO DATABASE [CHARACTERISTIC TABLE] ***"
+              );
             })
             .catch((error) => console.error(error));
         });

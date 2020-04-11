@@ -1,5 +1,4 @@
 const etl = require("etl");
-const fs = require("fs");
 const { connection } = require("./database.js");
 
 let nameId = 1;
@@ -8,7 +7,7 @@ let passedName = {};
 let characteristicNames = function () {
   console.log("*** STARTING FUNCTION characteristicNames ***");
   return etl
-    .file("./characteristics.csv")
+    .file("./data/characteristics.csv")
     .pipe(etl.csv())
     .pipe(
       etl.map(function (data) {
@@ -25,7 +24,7 @@ let characteristicNames = function () {
     .promise()
     .then(() => {
       console.log(
-        "*** FINISHED CONSOLIDATING CHARACTERISTICS INTO ID:NAME AND WROTE TO DATABASE[CHARACTERISTIC_NAMES TABLE ***"
+        "*** FINISHED CONSOLIDATING CHARACTERISTICS INTO ID:NAME FROM CHARACTERISTICS.CSV AND WROTE TO DATABASE[CHARACTERISTIC_NAMES TABLE] ***"
       );
     })
     .catch((error) => {

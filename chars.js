@@ -1,5 +1,4 @@
 const etl = require("etl");
-const fs = require("fs");
 const { connection } = require("./database.js");
 const boolTransform = require("./boolTransform.js");
 
@@ -16,7 +15,7 @@ let importCharacteristicNames = function () {
     })
     .then(() => {
       etl
-        .file("./characteristics.csv")
+        .file("./data/characteristics.csv")
         .pipe(etl.csv())
         .pipe(
           etl.map(function (data) {
@@ -30,7 +29,7 @@ let importCharacteristicNames = function () {
         .promise()
         .then(() => {
           console.log(
-            "*** FINISHED WRITING CHAR_ID & CHAR_NAME_ID TO DATABASE [CHARACTERISTIC TABLE]... AWAITING RATING FEILD ***"
+            "*** FINISHED WRITING CHAR_ID & CHAR_NAME_ID FROM CHARACTERISTICS.CSV TO DATABASE [CHARACTERISTIC TABLE]... AWAITING RATING FEILD ***"
           );
         })
         .catch((error) => {
@@ -45,7 +44,7 @@ let importCharacteristicNames = function () {
 let characteristicSet = function () {
   console.log("*** STARTING FUNCTION characteristicSet ***");
   return etl
-    .file("./characteristics.csv")
+    .file("./data/characteristics.csv")
     .pipe(etl.csv())
     .pipe(
       etl.map(function (data) {
@@ -87,7 +86,7 @@ let productMetadata = function () {
     })
     .then(() => {
       etl
-        .file("./reviews.csv")
+        .file("./data/reviews.csv")
         .pipe(etl.csv())
         .pipe(
           etl.map(function (data) {
