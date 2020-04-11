@@ -1,14 +1,14 @@
-const etl = require("etl");
-const { connection } = require("./database.js");
+const etl = require('etl');
+const { connection } = require('./database.js');
 
 let ratings = {};
 let characteristic = {};
 
 let characteristicReviews = function () {
-  console.log("*** STARTING FUNCTION characteristicReviews ***");
+  console.log('*** STARTING FUNCTION characteristicReviews ***');
 
   return etl
-    .file("./data/characteristic_reviews.csv")
+    .file('./data/characteristic_reviews.csv')
     .pipe(etl.csv())
     .pipe(
       etl.map(function (data) {
@@ -23,14 +23,14 @@ let characteristicReviews = function () {
     )
     .promise()
     .then(() => {
-      console.log("*** FINISHED READING CHARACTERISTIC_REVIEW.CSV AND COMPILING AVERAGE REVIEW DATA TO OBJECT***");
+      console.log('*** FINISHED READING CHARACTERISTIC_REVIEW.CSV AND COMPILING AVERAGE REVIEW DATA TO OBJECT***');
     })
     .catch((error) => {
       console.error(error);
     })
     .then(() => {
       connection
-        .query("SELECT * FROM characteristic")
+        .query('SELECT * FROM characteristic')
         .then((result) => {
           for (let row of result.rows) {
             // console.log(row);
@@ -42,7 +42,7 @@ let characteristicReviews = function () {
         })
         .then(() => {
           console.log(
-            "*** FINISHED QUERY FROM DATABASE [CHARACTERISTIC TABLE] AND ADDED RATING OBJECTS TO EACH ROW IN OBJECT ***"
+            '*** FINISHED QUERY FROM DATABASE [CHARACTERISTIC TABLE] AND ADDED RATING OBJECTS TO EACH ROW IN OBJECT ***'
           );
         })
         .catch((error) => {
@@ -50,7 +50,7 @@ let characteristicReviews = function () {
         })
         .then(() => {
           etl
-            .file("./data/characteristic_reviews.csv")
+            .file('./data/characteristic_reviews.csv')
             .pipe(etl.csv())
             .pipe(
               etl.map(function (data) {
@@ -64,11 +64,11 @@ let characteristicReviews = function () {
                 }
               })
             )
-            .pipe(etl.postgres.upsert(connection, "public", "characteristic"))
+            .pipe(etl.postgres.upsert(connection, 'public', 'characteristic'))
             .promise()
             .then(() => {
               console.log(
-                "*** FINISHED WRITING FULL DATASET FROM CHARACTERISTIC_REVIEWS.CSV TO DATABASE [CHARACTERISTIC TABLE] ***"
+                '*** FINISHED WRITING FULL DATASET FROM CHARACTERISTIC_REVIEWS.CSV TO DATABASE [CHARACTERISTIC TABLE] ***'
               );
             })
             .catch((error) => console.error(error));

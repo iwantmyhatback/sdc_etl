@@ -1,13 +1,13 @@
-const etl = require("etl");
-const { connection } = require("./database.js");
-const boolTransform = require("./boolTransform.js");
+const etl = require('etl');
+const { connection } = require('./database.js');
+const boolTransform = require('./boolTransform.js');
 
 let characteristics = {};
 
 let importCharacteristicNames = function () {
-  console.log("*** STARTING FUNCTION importCharacteristicNames ***");
+  console.log('*** STARTING FUNCTION importCharacteristicNames ***');
   return connection
-    .query("SELECT * FROM characteristic_names")
+    .query('SELECT * FROM characteristic_names')
     .then((result) => {
       for (let row of result.rows) {
         characteristics[row.name] = row.char_name_id;
@@ -15,7 +15,7 @@ let importCharacteristicNames = function () {
     })
     .then(() => {
       etl
-        .file("./data/characteristics.csv")
+        .file('./data/characteristics.csv')
         .pipe(etl.csv())
         .pipe(
           etl.map(function (data) {
@@ -25,11 +25,11 @@ let importCharacteristicNames = function () {
             });
           })
         )
-        .pipe(etl.postgres.upsert(connection, "public", "characteristic"))
+        .pipe(etl.postgres.upsert(connection, 'public', 'characteristic'))
         .promise()
         .then(() => {
           console.log(
-            "*** FINISHED WRITING CHAR_ID & CHAR_NAME_ID FROM CHARACTERISTICS.CSV TO DATABASE [CHARACTERISTIC TABLE]... AWAITING RATING FEILD ***"
+            '*** FINISHED WRITING CHAR_ID & CHAR_NAME_ID FROM CHARACTERISTICS.CSV TO DATABASE [CHARACTERISTIC TABLE]... AWAITING RATING FEILD ***'
           );
         })
         .catch((error) => {
@@ -42,9 +42,9 @@ let importCharacteristicNames = function () {
 };
 
 let characteristicSet = function () {
-  console.log("*** STARTING FUNCTION characteristicSet ***");
+  console.log('*** STARTING FUNCTION characteristicSet ***');
   return etl
-    .file("./data/characteristics.csv")
+    .file('./data/characteristics.csv')
     .pipe(etl.csv())
     .pipe(
       etl.map(function (data) {
@@ -54,11 +54,11 @@ let characteristicSet = function () {
         });
       })
     )
-    .pipe(etl.postgres.upsert(connection, "public", "characteristic_set"))
+    .pipe(etl.postgres.upsert(connection, 'public', 'characteristic_set'))
     .promise()
     .then(() => {
       console.log(
-        "*** FINISHED WRITING CHARACTERISTIC_ID AND PRODUCT_ID FROM CHARACTERISTICS.CSV TO DATABASE [CHARACTERISTIC_SET TABLE] ***"
+        '*** FINISHED WRITING CHARACTERISTIC_ID AND PRODUCT_ID FROM CHARACTERISTICS.CSV TO DATABASE [CHARACTERISTIC_SET TABLE] ***'
       );
     })
     .catch((error) => {
@@ -70,23 +70,23 @@ let ratings = {};
 let recommended = {};
 
 let productMetadata = function () {
-  console.log("*** STARTING FUNCTION productMetadata ***");
+  console.log('*** STARTING FUNCTION productMetadata ***');
   return connection
-    .query("SELECT * FROM products")
+    .query('SELECT * FROM products')
     .then((result) => {
       for (let row of result.rows) {
         ratings[row.product_id] = 0;
       }
     })
     .then(() => {
-      console.log("*** FINISHED READING ALL PRODUCT_ID DATA FROM DATABASE [PRODUCTS TABLE] ***");
+      console.log('*** FINISHED READING ALL PRODUCT_ID DATA FROM DATABASE [PRODUCTS TABLE] ***');
     })
     .catch((error) => {
       console.error(error);
     })
     .then(() => {
       etl
-        .file("./data/reviews.csv")
+        .file('./data/reviews.csv')
         .pipe(etl.csv())
         .pipe(
           etl.map(function (data) {
@@ -110,11 +110,11 @@ let productMetadata = function () {
             });
           })
         )
-        .pipe(etl.postgres.upsert(connection, "public", "product_metadata"))
+        .pipe(etl.postgres.upsert(connection, 'public', 'product_metadata'))
         .promise()
         .then(() => {
           console.log(
-            "*** FINISHED WRITING PRODUCT_ID, RATINGS, & RECOMMENDED TO DATABASE [PRODUCTMETADATA TABLE] ***"
+            '*** FINISHED WRITING PRODUCT_ID, RATINGS, & RECOMMENDED TO DATABASE [PRODUCTMETADATA TABLE] ***'
           );
         })
         .catch((error) => {

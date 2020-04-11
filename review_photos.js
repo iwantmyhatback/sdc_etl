@@ -1,13 +1,13 @@
-const etl = require("etl");
-const { connection } = require("./database.js");
+const etl = require('etl');
+const { connection } = require('./database.js');
 
 let photos = {};
 
 let reviewPhotos = function () {
-  console.log("*** STARTING FUNCTION reviewPhotos ***");
+  console.log('*** STARTING FUNCTION reviewPhotos ***');
 
   return etl
-    .file("./data/reviews_photos.csv")
+    .file('./data/reviews_photos.csv')
     .pipe(etl.csv())
     .pipe(
       etl.map(function (data) {
@@ -23,10 +23,10 @@ let reviewPhotos = function () {
         });
       })
     )
-    .pipe(etl.postgres.upsert(connection, "public", "photos"))
+    .pipe(etl.postgres.upsert(connection, 'public', 'photos'))
     .promise()
     .then(() => {
-      console.log("*** FINISHED CONSOLIDATING PHOTOS FROM REVIEWS_PHOTOS.CSV TO JS OBJECT***");
+      console.log('*** FINISHED CONSOLIDATING PHOTOS FROM REVIEWS_PHOTOS.CSV TO JS OBJECT***');
     })
     .catch((error) => {
       console.error(error);

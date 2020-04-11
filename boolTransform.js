@@ -1,7 +1,7 @@
 let boolTransform = function (recommend) {
-  if (recommend === "true") {
+  if (recommend === 'true') {
     return 1;
-  } else if (recommend === "false") {
+  } else if (recommend === 'false') {
     return 0;
   } else {
     return recommend;

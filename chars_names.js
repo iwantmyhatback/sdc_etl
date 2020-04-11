@@ -1,13 +1,13 @@
-const etl = require("etl");
-const { connection } = require("./database.js");
+const etl = require('etl');
+const { connection } = require('./database.js');
 
 let nameId = 1;
 let passedName = {};
 
 let characteristicNames = function () {
-  console.log("*** STARTING FUNCTION characteristicNames ***");
+  console.log('*** STARTING FUNCTION characteristicNames ***');
   return etl
-    .file("./data/characteristics.csv")
+    .file('./data/characteristics.csv')
     .pipe(etl.csv())
     .pipe(
       etl.map(function (data) {
@@ -20,11 +20,11 @@ let characteristicNames = function () {
         }
       })
     )
-    .pipe(etl.postgres.upsert(connection, "public", "characteristic_names"))
+    .pipe(etl.postgres.upsert(connection, 'public', 'characteristic_names'))
     .promise()
     .then(() => {
       console.log(
-        "*** FINISHED CONSOLIDATING CHARACTERISTICS INTO ID:NAME FROM CHARACTERISTICS.CSV AND WROTE TO DATABASE[CHARACTERISTIC_NAMES TABLE] ***"
+        '*** FINISHED CONSOLIDATING CHARACTERISTICS INTO ID:NAME FROM CHARACTERISTICS.CSV AND WROTE TO DATABASE[CHARACTERISTIC_NAMES TABLE] ***'
       );
     })
     .catch((error) => {
