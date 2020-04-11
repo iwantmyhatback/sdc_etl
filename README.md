@@ -9,4 +9,4 @@ This will migrate all data to the existing `localhost` Postgres Server named `sd
 <br>
 ![currentERD][ERD]
 
-[ERD]: https://github.com/iwantmyhatback/sdc_etl/master/img/current_erd.png "reviews-erd"
+[ERD]: https://github.com/iwantmyhatback/sdc_etl/blob/master/img/current_erd.png "reviews-erd"
