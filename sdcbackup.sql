@@ -146,9 +146,9 @@ GRANT ALL ON TABLE public.reviews TO hackreactor;
 -- PostgreSQL database dump complete
 --
 
--- CREATE INDEX reviews_index ON reviews (review_id);
--- CREATE INDEX products_index ON products (product_id);
--- CREATE INDEX product_reviews_index ON product_reviews (product_id, review_id);
--- CREATE INDEX product_metadata_index ON product_metadata (product_id);
--- CREATE INDEX photos_index ON photos (review_id);
--- CREATE INDEX characteristic_index ON characteristic (characteristic_id);
+CREATE INDEX reviews_index ON reviews (review_id);
+CREATE INDEX products_index ON products (product_id);
+CREATE INDEX product_reviews_index ON product_reviews (product_id, review_id);
+CREATE INDEX product_metadata_index ON product_metadata (product_id);
+CREATE INDEX photos_index ON photos (review_id);
+CREATE INDEX characteristic_index ON characteristic (characteristic_id);
