@@ -7,7 +7,13 @@ run:<br>
 <br>
 This will migrate all data to the existing `localhost` Postgres Server named `sdc`<br>
 <br>
-### New Database will be formatted as follows:<br>
+
+### Pre ERD Database Layout:<br>
+![oldERD](https://github.com/iwantmyhatback/sdc_etl/blob/master/img/old_erd.png)
+
+
+
+### Post ERD Database Layout:<br>
 ![currentERD][ERD]
 
 [ERD]: https://github.com/iwantmyhatback/sdc_etl/blob/master/img/current_erd.png "reviews-erd"
